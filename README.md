@@ -4,7 +4,7 @@ A Spring Boot REST backend for managing construction sites, projects, site manag
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Java**: 21+
 - **Framework**: Spring Boot 3.4.3 (Spring Web, Spring Data JPA)
@@ -13,7 +13,7 @@ A Spring Boot REST backend for managing construction sites, projects, site manag
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Start the Database
 Ensure Docker is running, then start the PostgreSQL container:
@@ -34,7 +34,7 @@ The server will start at `http://localhost:8080`.
 
 ---
 
-## 📖 API Documentation & Demo Payloads
+## API Documentation & Demo Payloads
 
 ### 1. Sites (`/api/sites`)
 
@@ -172,9 +172,9 @@ Project saved successfully
 3. **Forced Draft**: New reports are always saved in `DRAFT` status regardless of the request body (`201 Created`).
 
 #### Status Workflow Rules (`PATCH /api/daily-reports/{id}/status`):
-- `DRAFT` ➔ `SUBMITTED` or `REJECTED`
-- `SUBMITTED` ➔ `APPROVED` or `REJECTED`
-- `APPROVED` / `REJECTED` ➔ Terminal states (cannot be altered)
+- `DRAFT` -> `SUBMITTED` or `REJECTED`
+- `SUBMITTED` -> `APPROVED` or `REJECTED`
+- `APPROVED` / `REJECTED` -> Terminal states (cannot be altered)
 
 #### Demo Request (`POST /api/daily-reports/save`):
 ```json
