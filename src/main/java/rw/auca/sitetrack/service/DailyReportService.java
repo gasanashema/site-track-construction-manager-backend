@@ -3,8 +3,10 @@ package rw.auca.sitetrack.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.auca.sitetrack.model.DailyReport;
+import rw.auca.sitetrack.model.DailyReportStatus;
 import rw.auca.sitetrack.repository.DailyReportRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,5 +45,13 @@ public class DailyReportService {
         }
         dailyReportRepository.deleteById(id);
         return "Daily report deleted successfully";
+    }
+
+    public List<DailyReport> getByStatus(DailyReportStatus status) {
+        return dailyReportRepository.findByStatusOrderByReportDateAsc(status);
+    }
+
+    public List<DailyReport> getBetween(LocalDate start, LocalDate end) {
+        return dailyReportRepository.findByReportDateBetweenOrderByReportDateAsc(start, end);
     }
 }

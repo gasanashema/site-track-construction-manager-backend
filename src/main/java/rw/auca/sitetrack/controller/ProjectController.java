@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.auca.sitetrack.model.Project;
 import rw.auca.sitetrack.service.ProjectService;
@@ -34,6 +35,19 @@ public class ProjectController {
     @GetMapping("/all")
     public ResponseEntity<List<Project>> getAll() {
         return new ResponseEntity<>(projectService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-district")
+    public ResponseEntity<List<Project>> getByDistrict(@RequestParam String district) {
+        return new ResponseEntity<>(projectService.getByDistrict(district), HttpStatus.OK);
+    }
+
+    @GetMapping("/of-site-manager/{siteManagerId}")
+    public ResponseEntity<Object> getProjectsOfSiteManager(@PathVariable UUID siteManagerId) {
+        if (!projectService.siteManagerExists(siteManagerId)) {
+            return new ResponseEntity<>("The site manager with that id does not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(projectService.getProjectsOfSiteManager(siteManagerId), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
