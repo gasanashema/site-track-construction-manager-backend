@@ -23,11 +23,12 @@ docker compose up -d
 The database runs on port `5433` (`sitetrack_db`, user: `postgres`, password: `postgres`).
 
 ### 2. Run the Application
+On Windows:
 ```bash
-# Windows
 .\mvnw.cmd spring-boot:run
-
-# Linux / macOS
+```
+On Linux / macOS:
+```bash
 ./mvnw spring-boot:run
 ```
 The server will start at `http://localhost:8080`.
