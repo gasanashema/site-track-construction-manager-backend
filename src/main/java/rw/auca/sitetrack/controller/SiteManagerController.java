@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -80,6 +81,20 @@ public class SiteManagerController {
         } else if (message.equals("That trade does not exist")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
         } else if (message.equals("The site manager already has that trade")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+    }
+
+    @PatchMapping("/{siteManagerId}/site")
+    public ResponseEntity<String> changeSite(@PathVariable UUID siteManagerId, @RequestParam int siteNumber) {
+        String message = siteManagerService.changeSite(siteManagerId, siteNumber);
+        if (message.equals("The site manager with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("The site with that siteNumber does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("That site is taken by another site manager")) {
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(message, HttpStatus.OK);
