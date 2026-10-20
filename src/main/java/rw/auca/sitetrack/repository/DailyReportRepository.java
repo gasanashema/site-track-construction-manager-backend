@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import rw.auca.sitetrack.model.DailyReport;
 
 import rw.auca.sitetrack.model.DailyReportStatus;
+import rw.auca.sitetrack.model.SiteManager;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,4 +17,6 @@ public interface DailyReportRepository extends JpaRepository<DailyReport, UUID> 
     List<DailyReport> findByStatusOrderByReportDateAsc(DailyReportStatus status);
 
     List<DailyReport> findByReportDateBetweenOrderByReportDateAsc(LocalDate start, LocalDate end);
+
+    boolean existsBySiteManagerAndReportDateAndStatusNot(SiteManager siteManager, LocalDate reportDate, DailyReportStatus status);
 }
