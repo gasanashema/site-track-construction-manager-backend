@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: sitetrack-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sitetrack_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - sitetrack_data:/var/lib/postgresql/data
+
+volumes:
+  sitetrack_data:

@@ -6,12 +6,12 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.3</version>
-		<relativePath/>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>rw.ac.auca</groupId>
 	<artifactId>SiteTrack</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SiteTrack</name>
+	<name>site-track-construction-manager</name>
 	<description>SiteTrack Construction Manager</description>
 	<properties>
 		<java.version>21</java.version>
