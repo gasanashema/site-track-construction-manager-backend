@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rw.auca.sitetrack.model.Project;
 import rw.auca.sitetrack.repository.ProjectRepository;
+import rw.auca.sitetrack.repository.SiteManagerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,9 @@ public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private SiteManagerRepository siteManagerRepository;
 
     public String save(Project project) {
         projectRepository.save(project);
@@ -47,5 +51,13 @@ public class ProjectService {
 
     public List<Project> getByDistrict(String district) {
         return projectRepository.findByDistrictIgnoreCaseOrderByProjectNameAsc(district);
+    }
+
+    public boolean siteManagerExists(UUID siteManagerId) {
+        return siteManagerRepository.existsById(siteManagerId);
+    }
+
+    public List<Project> getProjectsOfSiteManager(UUID siteManagerId) {
+        return projectRepository.findProjectsBySiteManagerId(siteManagerId);
     }
 }

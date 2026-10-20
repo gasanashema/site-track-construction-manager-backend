@@ -36,6 +36,11 @@ public class SiteController {
         return new ResponseEntity<>(siteService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/free")
+    public ResponseEntity<List<Site>> getFreeSites() {
+        return new ResponseEntity<>(siteService.getFreeSites(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id) {
         Optional<Site> optional = siteService.getById(id);
