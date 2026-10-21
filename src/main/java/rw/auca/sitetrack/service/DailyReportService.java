@@ -18,6 +18,13 @@ public class DailyReportService {
     private DailyReportRepository dailyReportRepository;
 
     public String save(DailyReport dailyReport) {
+        if (dailyReport.getReportDate().isBefore(LocalDate.now())) {
+            return "Daily report date cannot be in the past";
+        }
+        if (dailyReportRepository.existsBySiteManagerAndReportDateAndStatusNot(dailyReport.getSiteManager(), dailyReport.getReportDate(), DailyReportStatus.REJECTED)) {
+            return "Site manager already has a daily report for that date";
+        }
+        dailyReport.setStatus(DailyReportStatus.DRAFT);
         dailyReportRepository.save(dailyReport);
         return "Daily report saved successfully";
     }

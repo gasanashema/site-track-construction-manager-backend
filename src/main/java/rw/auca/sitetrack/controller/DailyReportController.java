@@ -31,7 +31,13 @@ public class DailyReportController {
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestBody DailyReport dailyReport) {
         String message = dailyReportService.save(dailyReport);
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        if (message.equals("Daily report date cannot be in the past")) {
+            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        } else if (message.equals("Site manager already has a daily report for that date")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.CREATED);
+        }
     }
 
     @GetMapping("/all")
