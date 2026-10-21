@@ -36,6 +36,11 @@ public class TradeController {
         return new ResponseEntity<>(tradeService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/unused")
+    public ResponseEntity<List<Trade>> getUnused() {
+        return new ResponseEntity<>(tradeService.getUnused(), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id) {
         Optional<Trade> optional = tradeService.getById(id);

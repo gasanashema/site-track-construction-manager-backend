@@ -44,4 +44,8 @@ public class SiteService {
         siteRepository.deleteById(id);
         return "Site deleted successfully";
     }
+
+    public List<Site> getFreeSites() {
+        return siteRepository.findFreeSites();
+    }
 }

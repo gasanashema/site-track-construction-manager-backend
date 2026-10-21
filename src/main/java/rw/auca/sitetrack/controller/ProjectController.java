@@ -42,6 +42,14 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getByDistrict(district), HttpStatus.OK);
     }
 
+    @GetMapping("/of-site-manager/{siteManagerId}")
+    public ResponseEntity<Object> getProjectsOfSiteManager(@PathVariable UUID siteManagerId) {
+        if (!projectService.siteManagerExists(siteManagerId)) {
+            return new ResponseEntity<>("The site manager with that id does not exist", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(projectService.getProjectsOfSiteManager(siteManagerId), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id) {
         Optional<Project> optional = projectService.getById(id);

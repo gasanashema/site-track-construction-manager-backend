@@ -44,4 +44,8 @@ public class SiteManagerService {
         siteManagerRepository.deleteById(id);
         return "Site manager deleted successfully";
     }
+
+    public List<SiteManager> getByTrade(String name) {
+        return siteManagerRepository.findByTradeName(name);
+    }
 }

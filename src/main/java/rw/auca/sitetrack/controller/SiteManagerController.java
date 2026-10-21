@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.auca.sitetrack.model.SiteManager;
 import rw.auca.sitetrack.service.SiteManagerService;
@@ -34,6 +35,11 @@ public class SiteManagerController {
     @GetMapping("/all")
     public ResponseEntity<List<SiteManager>> getAll() {
         return new ResponseEntity<>(siteManagerService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-trade")
+    public ResponseEntity<List<SiteManager>> getByTrade(@RequestParam String name) {
+        return new ResponseEntity<>(siteManagerService.getByTrade(name), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
