@@ -71,4 +71,18 @@ public class SiteManagerController {
             return new ResponseEntity<>(message, HttpStatus.OK);
         }
     }
+
+    @PutMapping("/{siteManagerId}/trades/{tradeId}")
+    public ResponseEntity<String> addTrade(@PathVariable UUID siteManagerId, @PathVariable UUID tradeId) {
+        String message = siteManagerService.addTrade(siteManagerId, tradeId);
+        if (message.equals("The site manager with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("That trade does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("The site manager already has that trade")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        } else {
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
+    }
 }
