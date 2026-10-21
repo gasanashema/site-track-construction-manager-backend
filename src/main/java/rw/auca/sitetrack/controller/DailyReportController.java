@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rw.auca.sitetrack.model.DailyReport;
+import rw.auca.sitetrack.model.DailyReportStatus;
 import rw.auca.sitetrack.service.DailyReportService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,6 +37,18 @@ public class DailyReportController {
     @GetMapping("/all")
     public ResponseEntity<List<DailyReport>> getAll() {
         return new ResponseEntity<>(dailyReportService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/by-status")
+    public ResponseEntity<List<DailyReport>> getByStatus(@RequestParam DailyReportStatus status) {
+        return new ResponseEntity<>(dailyReportService.getByStatus(status), HttpStatus.OK);
+    }
+
+    @GetMapping("/between")
+    public ResponseEntity<List<DailyReport>> getBetween(@RequestParam String start, @RequestParam String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return new ResponseEntity<>(dailyReportService.getBetween(startDate, endDate), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

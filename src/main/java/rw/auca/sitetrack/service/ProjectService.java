@@ -44,4 +44,8 @@ public class ProjectService {
         projectRepository.deleteById(id);
         return "Project deleted successfully";
     }
+
+    public List<Project> getByDistrict(String district) {
+        return projectRepository.findByDistrictIgnoreCaseOrderByProjectNameAsc(district);
+    }
 }
