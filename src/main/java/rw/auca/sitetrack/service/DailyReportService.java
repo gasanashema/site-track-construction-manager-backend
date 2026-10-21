@@ -41,9 +41,32 @@ public class DailyReportService {
         if (!dailyReportRepository.existsById(id)) {
             return "The daily report with that id does not exist";
         }
+        DailyReport existing = dailyReportRepository.findById(id).get();
         dailyReport.setId(id);
+        dailyReport.setStatus(existing.getStatus());
         dailyReportRepository.save(dailyReport);
         return "Daily report updated successfully";
+    }
+
+    public String updateStatus(UUID id, DailyReportStatus newStatus) {
+        Optional<DailyReport> found = dailyReportRepository.findById(id);
+        if (found.isEmpty()) {
+            return "The daily report with that id does not exist";
+        }
+        DailyReport dailyReport = found.get();
+        DailyReportStatus current = dailyReport.getStatus();
+        boolean allowed = false;
+        if (current == DailyReportStatus.DRAFT) {
+            allowed = (newStatus == DailyReportStatus.SUBMITTED || newStatus == DailyReportStatus.REJECTED);
+        } else if (current == DailyReportStatus.SUBMITTED) {
+            allowed = (newStatus == DailyReportStatus.APPROVED || newStatus == DailyReportStatus.REJECTED);
+        }
+        if (!allowed) {
+            return "Cannot change status from " + current + " to " + newStatus;
+        }
+        dailyReport.setStatus(newStatus);
+        dailyReportRepository.save(dailyReport);
+        return "Daily report status updated successfully";
     }
 
     public String delete(UUID id) {
