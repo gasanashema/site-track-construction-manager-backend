@@ -43,6 +43,11 @@ public class MaterialUsageController {
         return new ResponseEntity<>(materialUsageService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/project/{projectCode}")
+    public ResponseEntity<List<MaterialUsage>> getByProjectCode(@PathVariable String projectCode) {
+        return new ResponseEntity<>(materialUsageService.getByProjectCode(projectCode), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable UUID id) {
         Optional<MaterialUsage> optional = materialUsageService.getById(id);

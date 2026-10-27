@@ -64,4 +64,8 @@ public class MaterialUsageService {
         materialUsageRepository.deleteById(id);
         return "Material usage deleted successfully";
     }
+
+    public List<MaterialUsage> getByProjectCode(String projectCode) {
+        return materialUsageRepository.findByProjectCode(projectCode);
+    }
 }
