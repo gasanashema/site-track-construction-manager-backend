@@ -88,7 +88,7 @@ public class SiteManagerService {
         if (sm.isEmpty()) {
             return "The site manager with that id does not exist";
         }
-        Optional<Site> site = siteRepository.findBySiteNumber(siteNumber);
+        Optional<Site> site = siteRepository.findFirstBySiteNumber(siteNumber);
         if (site.isEmpty()) {
             return "The site with that siteNumber does not exist";
         }

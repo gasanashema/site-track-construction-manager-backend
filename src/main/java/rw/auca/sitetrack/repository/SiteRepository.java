@@ -16,4 +16,8 @@ public interface SiteRepository extends JpaRepository<Site, UUID> {
     List<Site> findFreeSites();
 
     Optional<Site> findBySiteNumber(int siteNumber);
+
+    Optional<Site> findFirstBySiteNumber(int siteNumber);
+
+    boolean existsBySiteNumber(int siteNumber);
 }
