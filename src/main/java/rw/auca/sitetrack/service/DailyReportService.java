@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import rw.auca.sitetrack.model.DailyReport;
 import rw.auca.sitetrack.model.DailyReportStatus;
 import rw.auca.sitetrack.repository.DailyReportRepository;
+import rw.auca.sitetrack.repository.MaterialUsageRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +17,9 @@ public class DailyReportService {
 
     @Autowired
     private DailyReportRepository dailyReportRepository;
+
+    @Autowired
+    private MaterialUsageRepository materialUsageRepository;
 
     public String save(DailyReport dailyReport) {
         if (dailyReport.getReportDate().isBefore(LocalDate.now())) {
@@ -70,10 +74,15 @@ public class DailyReportService {
     }
 
     public String delete(UUID id) {
-        if (!dailyReportRepository.existsById(id)) {
+        Optional<DailyReport> optional = dailyReportRepository.findById(id);
+        if (optional.isEmpty()) {
             return "The daily report with that id does not exist";
         }
-        dailyReportRepository.deleteById(id);
+        DailyReport dailyReport = optional.get();
+        if (materialUsageRepository.existsByDailyReport(dailyReport)) {
+            return "That daily report has material usages, delete them first";
+        }
+        dailyReportRepository.delete(dailyReport);
         return "Daily report deleted successfully";
     }
 

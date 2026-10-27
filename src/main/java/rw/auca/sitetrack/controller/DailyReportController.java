@@ -95,6 +95,8 @@ public class DailyReportController {
         String message = dailyReportService.delete(id);
         if (message.equals("The daily report with that id does not exist")) {
             return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        } else if (message.equals("That daily report has material usages, delete them first")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(message, HttpStatus.OK);
         }

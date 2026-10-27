@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import rw.auca.sitetrack.model.DailyReport;
 import rw.auca.sitetrack.model.MaterialUsage;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface MaterialUsageRepository extends JpaRepository<MaterialUsage, UU
 
     @Query("SELECT m FROM MaterialUsage m WHERE m.dailyReport.project.projectCode = :projectCode ORDER BY m.recordedDate DESC")
     List<MaterialUsage> findByProjectCode(@Param("projectCode") String projectCode);
+
+    boolean existsByDailyReport(DailyReport dailyReport);
 }
