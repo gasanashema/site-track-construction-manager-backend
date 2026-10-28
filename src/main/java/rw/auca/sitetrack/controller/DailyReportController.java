@@ -1,6 +1,10 @@
 package rw.auca.sitetrack.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,6 +67,20 @@ public class DailyReportController {
     @GetMapping("/all")
     public ResponseEntity<List<DailyReport>> getAll() {
         return new ResponseEntity<>(dailyReportService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<DailyReport>> getPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "reportDate,desc") String sort) {
+        String[] sortParts = sort.split(",");
+        String property = sortParts[0];
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc"))
+                ? Sort.Direction.ASC
+                : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, property));
+        return new ResponseEntity<>(dailyReportService.getPage(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/by-status")

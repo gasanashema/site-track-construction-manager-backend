@@ -1,6 +1,8 @@
 package rw.auca.sitetrack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rw.auca.sitetrack.model.DailyReport;
@@ -103,5 +105,9 @@ public class DailyReportService {
     public String cancelDay(UUID siteManagerId, LocalDate date) {
         int count = dailyReportRepository.cancelDayForSiteManager(siteManagerId, date);
         return count + " daily reports cancelled";
+    }
+
+    public Page<DailyReport> getPage(Pageable pageable) {
+        return dailyReportRepository.findAll(pageable);
     }
 }
