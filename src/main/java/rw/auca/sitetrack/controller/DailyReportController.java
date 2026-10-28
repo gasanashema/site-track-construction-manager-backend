@@ -63,6 +63,11 @@ public class DailyReportController {
         return new ResponseEntity<>(dailyReportService.getByStatus(status), HttpStatus.OK);
     }
 
+    @GetMapping("/stats/by-status")
+    public ResponseEntity<List<Object[]>> getStatsByStatus() {
+        return new ResponseEntity<>(dailyReportService.getStatsByStatus(), HttpStatus.OK);
+    }
+
     @GetMapping("/between")
     public ResponseEntity<List<DailyReport>> getBetween(@RequestParam String start, @RequestParam String end) {
         LocalDate startDate = LocalDate.parse(start);

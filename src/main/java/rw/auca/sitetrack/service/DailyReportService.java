@@ -93,4 +93,8 @@ public class DailyReportService {
     public List<DailyReport> getBetween(LocalDate start, LocalDate end) {
         return dailyReportRepository.findByReportDateBetweenOrderByReportDateAsc(start, end);
     }
+
+    public List<Object[]> getStatsByStatus() {
+        return dailyReportRepository.countDailyReportsByStatus();
+    }
 }

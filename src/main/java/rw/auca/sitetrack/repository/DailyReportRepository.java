@@ -1,6 +1,7 @@
 package rw.auca.sitetrack.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import rw.auca.sitetrack.model.DailyReport;
 
@@ -19,4 +20,7 @@ public interface DailyReportRepository extends JpaRepository<DailyReport, UUID> 
     List<DailyReport> findByReportDateBetweenOrderByReportDateAsc(LocalDate start, LocalDate end);
 
     boolean existsBySiteManagerAndReportDateAndStatusNot(SiteManager siteManager, LocalDate reportDate, DailyReportStatus status);
+
+    @Query("SELECT d.status, COUNT(d) FROM DailyReport d GROUP BY d.status")
+    List<Object[]> countDailyReportsByStatus();
 }
