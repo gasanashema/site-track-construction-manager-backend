@@ -172,6 +172,9 @@ Project saved successfully
 | `GET` | `/api/daily-reports/by-status?status=DRAFT` | Filter reports by status |
 | `GET` | `/api/daily-reports/between?start=YYYY-MM-DD&end=YYYY-MM-DD` | Filter reports in date range |
 | `PATCH` | `/api/daily-reports/{id}/status?status={status}` | Transition report workflow status |
+| `GET` | `/api/daily-reports/stats/by-status` | Get daily report counts grouped by status |
+| `PATCH` | `/api/daily-reports/cancel-day?siteManagerId={id}&date=YYYY-MM-DD` | Cancel all non-approved reports for a site manager on date |
+| `GET` | `/api/daily-reports/page?page=0&size=5&sort=reportDate,desc` | Paginated daily reports with sorting |
 
 #### Safe Saving Rules (`POST /api/daily-reports/save`):
 1. **Date Validation**: Cannot submit reports for past dates (`400 Bad Request`).
@@ -186,7 +189,7 @@ Project saved successfully
 #### Demo Request (`POST /api/daily-reports/save`):
 ```json
 {
-  "reportDate": "2027-01-15",
+  "reportDate": "2026-11-15",
   "status": "DRAFT",
   "workersPresent": 16,
   "summary": "Completed foundation concrete curing and inspection.",
@@ -207,4 +210,60 @@ Daily report saved successfully
 **Response (`200 OK`):**
 ```
 Daily report status updated successfully
+```
+
+#### Demo Bulk Cancellation (`PATCH /api/daily-reports/cancel-day?siteManagerId={id}&date=2026-10-20`):
+**Response (`200 OK`):**
+```
+2 daily reports cancelled
+```
+
+---
+
+### 6. Material Usages (`/api/material-usages`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/material-usages/save?dailyReportId={id}` | Record material usage under an APPROVED report |
+| `GET` | `/api/material-usages/all` | List all material usages |
+| `GET` | `/api/material-usages/{id}` | Get material usage by UUID |
+| `PUT` | `/api/material-usages/update/{id}` | Update material usage |
+| `DELETE` | `/api/material-usages/delete/{id}` | Delete material usage |
+| `GET` | `/api/material-usages/project/{projectCode}` | Material usage history for a project (newest first) |
+
+#### Rules:
+1. **Approval Required**: Material usages can only be saved for daily reports in `APPROVED` status (`400 Bad Request`).
+2. **Delete Protection**: A daily report that has recorded material usages cannot be deleted (`409 Conflict: That daily report has material usages, delete them first`).
+
+#### Demo Request (`POST /api/material-usages/save?dailyReportId=906b6d36-ebaf-4f95-9076-1c59f9f88d03`):
+```json
+{
+  "materialName": "Cement 50kg bag",
+  "remarks": "Used for foundation slab",
+  "quantity": 40
+}
+```
+**Response (`201 Created`):**
+```
+Material usage saved successfully
+```
+
+---
+
+### 7. Dashboard (`/api/dashboard`)
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/dashboard/summary` | Real-time system statistics and count summary |
+
+#### Demo Response (`200 OK`):
+```json
+{
+  "projects": 5,
+  "siteManagers": 3,
+  "freeSites": 1,
+  "reportsToday": 0,
+  "draft": 4,
+  "materialUsages": 6
+}
 ```
