@@ -2,6 +2,7 @@ package rw.auca.sitetrack.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rw.auca.sitetrack.model.DailyReport;
 import rw.auca.sitetrack.model.DailyReportStatus;
 import rw.auca.sitetrack.repository.DailyReportRepository;
@@ -96,5 +97,11 @@ public class DailyReportService {
 
     public List<Object[]> getStatsByStatus() {
         return dailyReportRepository.countDailyReportsByStatus();
+    }
+
+    @Transactional
+    public String cancelDay(UUID siteManagerId, LocalDate date) {
+        int count = dailyReportRepository.cancelDayForSiteManager(siteManagerId, date);
+        return count + " daily reports cancelled";
     }
 }

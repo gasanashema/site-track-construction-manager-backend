@@ -53,6 +53,13 @@ public class DailyReportController {
         }
     }
 
+    @PatchMapping("/cancel-day")
+    public ResponseEntity<String> cancelDay(@RequestParam UUID siteManagerId, @RequestParam String date) {
+        LocalDate reportDate = LocalDate.parse(date);
+        String message = dailyReportService.cancelDay(siteManagerId, reportDate);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<DailyReport>> getAll() {
         return new ResponseEntity<>(dailyReportService.getAll(), HttpStatus.OK);
