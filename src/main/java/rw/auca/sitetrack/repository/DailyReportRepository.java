@@ -29,4 +29,8 @@ public interface DailyReportRepository extends JpaRepository<DailyReport, UUID> 
     @Modifying
     @Query("UPDATE DailyReport d SET d.status = rw.auca.sitetrack.model.DailyReportStatus.REJECTED WHERE d.siteManager.id = :siteManagerId AND d.reportDate = :date AND d.status <> rw.auca.sitetrack.model.DailyReportStatus.APPROVED")
     int cancelDayForSiteManager(@Param("siteManagerId") UUID siteManagerId, @Param("date") LocalDate date);
+
+    long countByReportDate(LocalDate reportDate);
+
+    long countByStatus(DailyReportStatus status);
 }
